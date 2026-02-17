@@ -1,0 +1,153 @@
+@import url("https://fonts.googleapis.com/css2?family=Londrina+Sketch&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Zain:ital,wght@0,200;0,300;0,400;0,700;0,800;0,900;1,300;1,400&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --border-radius: 0.8rem;
+}
+
+body {
+  font-family: "Zain", sans-serif;
+}
+
+.quiz-container {
+  width: 85%;
+  margin: 0 auto;
+}
+
+.quiz-content {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.quiz-title {
+  font-family: "Londrina Sketch", sans-serif;
+  font-size: 5rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.question {
+  border-radius: var(--border-radius);
+  box-shadow: rgba(235, 235, 235, 0.8) 0px 0px 14px;
+  padding: 1.5rem;
+}
+
+.question-title {
+  font-size: 1.2rem;
+  line-height: 1.2rem;
+  text-align: center;
+}
+
+.answer-parent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.answer-item {
+  width: 100%;
+  padding: 1rem 0;
+  font-size: 1rem;
+}
+
+.answer-item.true {
+  background-color: rgba(65, 188, 65, 0.5);
+}
+
+.answer-item.false {
+  background-color: rgba(255, 0, 0, 0.5);
+}
+
+.btn {
+  font-family: "Zain", sans-serif;
+  font-weight: 300;
+  border: none;
+  border-radius: 0.8rem;
+  background-color: rgb(243, 243, 243);
+}
+
+.btn:hover {
+  filter: brightness(90%);
+  /* background-color: rgb(220, 220, 220); */
+}
+
+.footer {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.footer .btn {
+  padding: 1rem;
+  font-size: 1rem;
+}
+
+@media only screen and (min-width: 600px) {
+  .quiz-content {
+    display: block;
+    margin-top: 2rem;
+    height: calc(100vh - 2rem);
+  }
+
+  .quiz-title {
+    font-size: 7rem;
+    margin-bottom: 2rem;
+  }
+
+  .question {
+    padding: 3rem;
+  }
+
+  .question-title {
+    font-size: 1.8rem;
+    line-height: 1.8rem;
+  }
+
+  .answer-parent {
+    height: 15rem;
+    margin-top: 3rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: normal;
+  }
+
+  .answer-item {
+    font-size: 1.5rem;
+  }
+
+  .footer {
+    margin-top: 3rem;
+  }
+}
+
+@media only screen and (min-width: 1000px) {
+  .quiz-title {
+    font-size: 10rem;
+  }
+
+  .question-title {
+    font-size: 2.5rem;
+    line-height: 2.5rem;
+  }
+
+  .footer .btn {
+    padding: 1rem;
+    font-size: 1.5rem;
+  }
+}
+
+@media only screen and (min-width: 1400px) {
+  .quiz-container {
+    max-width: 1000px;
+  }
+}
