@@ -1,19 +1,14 @@
-const germany = ["Hamburg", "München", "Berlin", "Hannover"];
-const hockey = [5, 4, 6, 11];
-
-const question = [
-  "Was ist die Hauptstadt von Deutschland?",
-  "Wie viele Feldspieler gibt es beim Eishockey?",
-];
-const answers = [germany, hockey];
-
-console.log(answers[0]);
-
-const questionObject = {
-  questionOne: {
-    answerOne: anserOne,
-  },
-  answers: answers,
+const bikeTrek = {
+  brand: "Trek",
+  model: "Emonda",
+  category: "Roadbike",
+  frameSize: 56,
+  weight: "7,6 Kilo",
+  wheels: "Bontrager",
 };
 
-console.log(questionObject.answers);
+console.log(bikeTrek);
+
+function contribute() {
+  document.getElementById("demo").innerHTML = bikeTrek.weight;
+}
