@@ -1,53 +1,72 @@
-const answersOne = ["Hamburg", "Berlin", "München", "Hannover"];
-const answersTwo = ["Wien", "Salzburg", "Innsbruck", "Graz"];
-
-const question = {
-  question: [
-    "Was ist die Hauptstadt von Deutschland?",
-    "Was ist die Hauptstadt von Österreich?",
-  ],
-  answerOne: ["Hamburg", "Wien"],
-  answerTwo: ["Berlin", "Salzburg"],
-  answerThree: ["München", "Innsbruck"],
-  answerFour: ["Hannover", "Graz"],
+const questionOne = {
+  question: "Was ist die Hauptstadt von Deutschland?",
+  answers: ["Hamburg", "Berlin", "München", "Hannover"],
+  correctAnswer: "Berlin",
 };
 
-let questions = [question];
+const questionTwo = {
+  question: "Was ist die Hauptstadt von Österreich?",
+  answers: ["Wien", "Salzburg", "Innsbruck", "Graz"],
+  correctAnswer: "Wien",
+};
 
-function contribute() {
-  for (let i = 0; i < questions.length; i++) {
-    appendQuestion(question);
-  }
-}
+const questionThree = {
+  question: "Was ist die Hauptstadt von Nordamerika?",
+  answers: ["Washington", "San Francisco", "New York", "Florida"],
+  correctAnswer: "Washington",
+};
 
-function appendQuestion(question) {
+const questions = [questionOne, questionTwo, questionThree];
+
+let questionsId = 0;
+
+const x = questions[questionsId];
+console.log(x.answers);
+console.log(questions.length);
+
+console.log(x.answers.length);
+
+/* let id = 0;
+let arrayLength = */
+
+function add() {}
+
+function continueQuestion() {
+  const x = questions[questionsId];
+
   const questionDiv = document.createElement("div");
-
   const questionParagraph = document.createElement("p");
-  const answerButtonOne = document.createElement("button");
-  const answerButtonTwo = document.createElement("button");
-  const answerButtonThree = document.createElement("button");
-  const answerButtonFour = document.createElement("button");
+  const answerDiv = document.createElement("div");
 
-  const questionParagraphText = document.createTextNode(question.question[0]);
-  const answerButtonTextOne = document.createTextNode(question.answerOne[0]);
-  const answerButtonTextTwo = document.createTextNode(question.answerTwo[0]);
-  const answerButtonTextThree = document.createTextNode(
-    question.answerThree[0],
-  );
-  const answerButtonTextFour = document.createTextNode(question.answerFour[0]);
+  const questionPargraphText = document.createTextNode(x.question);
 
-  questionParagraph.appendChild(questionParagraphText);
-  answerButtonOne.appendChild(answerButtonTextOne);
-  answerButtonTwo.appendChild(answerButtonTextTwo);
-  answerButtonThree.appendChild(answerButtonTextThree);
-  answerButtonFour.appendChild(answerButtonTextFour);
+  questionParagraph.appendChild(questionPargraphText);
 
   questionDiv.appendChild(questionParagraph);
-  questionDiv.appendChild(answerButtonOne);
-  questionDiv.appendChild(answerButtonTwo);
-  questionDiv.appendChild(answerButtonThree);
-  questionDiv.appendChild(answerButtonFour);
+  questionDiv.appendChild(answerDiv);
 
-  document.getElementById("demo").appendChild(questionDiv);
+  for (let answersId = 0; answersId < x.answers.length; answersId++) {
+    console.log(x.answers[answersId]);
+    const answerButton = document.createElement("button");
+    answerButton.id = answersId;
+    answerButton.setAttribute("onclick", `validate(${answersId})`);
+    const answerButtonTextOne = document.createTextNode(x.answers[answersId]);
+    answerButton.appendChild(answerButtonTextOne);
+    answerDiv.appendChild(answerButton);
+  }
+
+  document.getElementById("demo").prepend(questionDiv);
+
+  if (questionsId < questions.length) {
+    questionsId++;
+    console.log(questionsId);
+  }
+
+  var element = document.getElementById("0");
+  console.log(element);
+  console.log(typeof element);
+
+  var y = document.getElementById("1");
+  console.log(y);
+  console.log(typeof y);
 }
