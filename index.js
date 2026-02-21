@@ -1,6 +1,6 @@
 const questionOne = {
   question: "Was ist die Hauptstadt von Deutschland?",
-  answers: ["Hamburg", "Berlin", "München", "Hannover"],
+  answers: ["Hamburg", "München", "Berlin", "Hannover"],
   correctAnswer: "Berlin",
 };
 
@@ -18,20 +18,29 @@ const questionThree = {
 
 const questions = [questionOne, questionTwo, questionThree];
 
-let questionsId = 0;
+let questionsId = -1;
 
-const x = questions[questionsId];
-console.log(x.answers);
-console.log(questions.length);
-
-console.log(x.answers.length);
-
-/* let id = 0;
-let arrayLength = */
-
-function add() {}
+function validate(id) {
+  const x = questions[questionsId];
+  let correctAnswerId = x.answers.findIndex((zahl) => {
+    return zahl === x.correctAnswer;
+  });
+  console.log(correctAnswerId);
+  if (correctAnswerId === id) {
+    console.log("Korrekt");
+    document.getElementById(id).classList.add("true");
+  } else {
+    console.log("Falsch");
+    document.getElementById(id).classList.add("false");
+  }
+}
 
 function continueQuestion() {
+  if (questionsId < questions.length) {
+    questionsId++;
+    console.log(questionsId);
+  }
+
   const x = questions[questionsId];
 
   const questionDiv = document.createElement("div");
@@ -57,16 +66,5 @@ function continueQuestion() {
 
   document.getElementById("demo").prepend(questionDiv);
 
-  if (questionsId < questions.length) {
-    questionsId++;
-    console.log(questionsId);
-  }
-
-  var element = document.getElementById("0");
-  console.log(element);
-  console.log(typeof element);
-
-  var y = document.getElementById("1");
-  console.log(y);
-  console.log(typeof y);
+  // let currentQuestion =
 }
