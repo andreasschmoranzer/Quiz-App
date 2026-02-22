@@ -16,55 +16,88 @@ const questionThree = {
   correctAnswer: "Washington",
 };
 
-const questions = [questionOne, questionTwo, questionThree];
+const questionFour = {
+  question: "Was ist die Hauptstadt von Frankreich?",
+  answers: ["Bordeaux", "Lyon", "Metz", "Paris"],
+  correctAnswer: "Paris",
+};
+
+const questionFive = {
+  question: "Wo fanden 2026 die olympischen Winterspiele statt?",
+  answers: ["Sochi", "Vancouver", "Mailand", "Grenoble"],
+  correctAnswer: "Mailand",
+};
+
+const questions = [
+  questionOne,
+  questionTwo,
+  questionThree,
+  questionFour,
+  questionFive,
+];
+
+document.addEventListener("DOMContentLoaded", renderQuestion);
 
 let questionsId = -1;
 
 function validate(id) {
-  const x = questions[questionsId];
-  let correctAnswerId = x.answers.findIndex((zahl) => {
-    return zahl === x.correctAnswer;
+  const currentQuestion = questions[questionsId];
+  let correctAnswerId = currentQuestion.answers.findIndex((zahl) => {
+    return zahl === currentQuestion.correctAnswer;
   });
-  console.log(correctAnswerId);
   if (correctAnswerId === id) {
-    console.log("Korrekt");
-    document.getElementById(id).classList.add("true");
+    var element = document.getElementById(id);
+    element.classList.add("true");
   } else {
-    console.log("Falsch");
-    document.getElementById(id).classList.add("false");
+    var element = document.getElementById(id);
+    element.classList.add("false");
   }
 }
 
-function continueQuestion() {
+function renderQuestion() {
   if (questionsId < questions.length) {
     questionsId++;
-    console.log(questionsId);
   }
 
-  const x = questions[questionsId];
+  const currentQuestion = questions[questionsId];
 
   const questionDiv = document.createElement("div");
   const questionParagraph = document.createElement("p");
   const answerDiv = document.createElement("div");
 
-  const questionPargraphText = document.createTextNode(x.question);
+  questionDiv.classList.add("question");
+  questionParagraph.classList.add("question-title");
+  answerDiv.classList.add("answer-parent");
+
+  const questionPargraphText = document.createTextNode(
+    currentQuestion.question,
+  );
 
   questionParagraph.appendChild(questionPargraphText);
 
   questionDiv.appendChild(questionParagraph);
   questionDiv.appendChild(answerDiv);
 
-  for (let answersId = 0; answersId < x.answers.length; answersId++) {
-    console.log(x.answers[answersId]);
+  for (
+    let answersId = 0;
+    answersId < currentQuestion.answers.length;
+    answersId++
+  ) {
     const answerButton = document.createElement("button");
     answerButton.id = answersId;
+    answerButton.classList.add("answer-item", "btn");
     answerButton.setAttribute("onclick", `validate(${answersId})`);
-    const answerButtonTextOne = document.createTextNode(x.answers[answersId]);
+    const answerButtonTextOne = document.createTextNode(
+      currentQuestion.answers[answersId],
+    );
     answerButton.appendChild(answerButtonTextOne);
     answerDiv.appendChild(answerButton);
   }
 
-  document.getElementById("demo").prepend(questionDiv);
-
-  // let currentQuestion =
+  if (questionsId > 0) {
+    const element = document.getElementById("display-question");
+    element.replaceChild(questionDiv, element.childNodes[0]);
+  } else {
+    document.getElementById("display-question").appendChild(questionDiv);
+  }
 }
