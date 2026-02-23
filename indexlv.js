@@ -53,10 +53,13 @@ const questions = [
   },
 ];
 
-function renderQuestion() {
-  const question = questions[0];
+// let currentQuestion = null;
+let currentQuestion;
+let currentQuestionPointer = -1;
 
+function renderQuestion(question) {
   const questionDiv = document.createElement("div");
+  questionDiv.id = question.id;
   questionDiv.classList.add("question");
 
   const questionTitle = document.createElement("div");
@@ -78,4 +81,42 @@ function renderQuestion() {
   questionDiv.appendChild(questionAnswers);
 
   document.getElementById("display-question").appendChild(questionDiv);
+}
+
+function nextQuestion() {
+  if (currentQuestion) {
+    document.getElementById(String(currentQuestion.id)).remove();
+  }
+
+  if (currentQuestionPointer + 1 < questions.length) {
+    currentQuestionPointer++;
+    currentQuestion = questions[currentQuestionPointer];
+  } else {
+    currentQuestionPointer = 0;
+    currentQuestion = questions[currentQuestionPointer];
+  }
+
+  renderQuestion(currentQuestion);
+}
+
+function validate(answerId) {
+  const correctAnswer = currentQuestion.answers.find((answer) => {
+    return answer.correct;
+  });
+
+  if (correctAnswer.id === answerId) {
+    alert("richtig");
+    document.getElementById(answerId).classList.add("correct");
+  } else {
+    alert("falsch");
+    document.getElementById(answerId).classList.add("incorrect");
+    document.getElementById(correctAnswerId).classList.add("correct");
+  }
+}
+
+function showSolution() {
+  const correctAnswer = currentQuestion.answers.find((answer) => {
+    return answer.correct;
+  });
+  document.getElementById(correctAnswerId).classList.add("correct");
 }
