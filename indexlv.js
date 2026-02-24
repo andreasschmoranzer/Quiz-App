@@ -70,12 +70,21 @@ function renderQuestion(question) {
   const questionAnswers = document.createElement("div");
   questionAnswers.classList.add("question-answers");
 
+  const answersCopy = [];
   question.answers.forEach((answer) => {
+    answersCopy.push(answer);
+  });
+
+  while (answersCopy.length > 0) {
+    const randomPointer = Math.floor(Math.random() * answersCopy.length);
+
+    const answer = answersCopy.splice(randomPointer, 1)[0];
+
     const answerDiv = document.createElement("button");
     answerDiv.classList.add(answer);
     answerDiv.appendChild(document.createTextNode(answer.text));
     questionAnswers.appendChild(answerDiv);
-  });
+  }
 
   questionDiv.appendChild(questionTitle);
   questionDiv.appendChild(questionAnswers);

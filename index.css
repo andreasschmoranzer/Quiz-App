@@ -15,7 +15,7 @@ body {
 }
 
 .quiz-container {
-  width: 70%;
+  max-width: 90%;
   margin: 0 auto;
 }
 
@@ -36,7 +36,11 @@ body {
 .question {
   border-radius: var(--border-radius);
   box-shadow: rgba(235, 235, 235, 0.8) 0px 0px 14px;
-  padding: 1.5rem;
+  height: 25rem;
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .question-title {
@@ -48,23 +52,14 @@ body {
 .answer-parent {
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 1rem;
-  margin-top: 1.5rem;
+  margin-top: 2rem;
 }
 
 .answer-item {
   width: 100%;
   padding: 1rem 0;
   font-size: 1rem;
-}
-
-.answer-item.true {
-  background-color: rgba(65, 188, 65, 0.5);
-}
-
-.answer-item.false {
-  background-color: rgba(255, 0, 0, 0.5);
 }
 
 .btn {
@@ -79,7 +74,6 @@ body {
   filter: brightness(90%);
   transition: 0.2s all ease-in-out;
   cursor: pointer;
-  /* background-color: rgb(220, 220, 220); */
 }
 
 .footer {
@@ -104,39 +98,15 @@ body {
 
 @media only screen and (min-width: 600px) {
   .quiz-container {
-    width: 85%;
-  }
-
-  .quiz-content {
-    display: block;
-    margin-top: 2rem;
-    height: calc(100vh - 2rem);
+    max-width: 30rem;
   }
 
   .quiz-title {
-    font-size: 6rem;
     margin-bottom: 2rem;
   }
 
-  .question {
-    padding: 3rem;
-  }
-
-  .question-title {
-    font-size: 1.4rem;
-    line-height: 1.4rem;
-  }
-
   .answer-parent {
-    height: 15rem;
-    margin-top: 3rem;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    align-items: normal;
-  }
-
-  .answer-item {
-    font-size: 1.5rem;
+    margin-top: 2.5rem;
   }
 
   .footer {
@@ -145,23 +115,30 @@ body {
 }
 
 @media only screen and (min-width: 1000px) {
+  .quiz-container {
+    max-width: 35rem;
+  }
+
   .quiz-title {
-    font-size: 8rem;
+    font-size: 5rem;
+  }
+
+  .question {
+    padding: 1rem 1rem;
   }
 
   .question-title {
-    font-size: 2rem;
-    line-height: 2rem;
+    font-size: 1.2rem;
+    line-height: 1.2rem;
   }
 
-  .footer .btn {
-    padding: 1rem;
-    font-size: 1.5rem;
+  .answer-item {
+    font-size: 1.2rem;
   }
 }
 
 @media only screen and (min-width: 1400px) {
   .quiz-container {
-    max-width: 900px;
+    max-width: 550px;
   }
 }

@@ -33,30 +33,43 @@ const questionFive = {
   correctAnswer: "Mailand",
 };
 
+const questionSix = {
+  id: "f",
+  question: "Welcher Planet unseres Sonnensystems hat die meisten Monde?",
+  answers: ["Jupiter", "Saturn", "Uranus", "Neptun"],
+  correctAnswer: "Saturn",
+};
+
+const questionSeven = {
+  id: "g",
+  question: "In welchem Jahr fiel die Berliner Mauer?",
+  answers: ["1987", "1989", "1990", "1991"],
+  correctAnswer: "1989",
+};
+
+const questionEight = {
+  id: "h",
+  question: "Welches chemische Element hat das Symbol 'Au'?",
+  answers: ["Silber", "Gold", "Aluminium", "Argon"],
+  correctAnswer: "Gold",
+};
+
 const questions = [
   questionOne,
   questionTwo,
   questionThree,
   questionFour,
   questionFive,
+  questionSix,
+  questionSeven,
+  questionEight,
 ];
 
-// document.addEventListener("DOMContentLoaded", nextQuestion);
+document.addEventListener("DOMContentLoaded", nextQuestion);
 
 let questionsId = -1;
 let currentQuestion;
 let randomAnswers = [];
-
-questionOne.answers.forEach((element) => {
-  const randomAnswer =
-    questionOne.answers[Math.floor(Math.random() * questionOne.answers.length)];
-  randomAnswers.push(randomAnswer);
-  console.log(randomAnswers);
-  console.log(questionOne.answers);
-  localStorage.setItem("answers", JSON.stringify(randomAnswers));
-});
-
-// vornamen[Math.floor(Math.random() * vornamen.length)];
 
 function renderQuestion(question) {
   const questionDiv = document.createElement("div");
@@ -75,22 +88,41 @@ function renderQuestion(question) {
   questionDiv.appendChild(questionParagraph);
   questionDiv.appendChild(answerDiv);
 
-  for (let answerId = 0; answerId < question.answers.length; answerId++) {
+  while (question.answers.length > 0) {
+    let randomAnswer =
+      question.answers[Math.floor(Math.random() * question.answers.length)];
+
+    // randomAnswer findIndex
+    const randomAnswerId = question.answers.findIndex((zahl) => {
+      return zahl === randomAnswer;
+    });
+
+    // randomAnswer aus dem alten Array löschen
+    question.answers.splice(randomAnswerId, 1);
+
+    // randomAnswer in leeres Array randomAnswers speichern
+    randomAnswers.push(randomAnswer);
+  }
+
+  // Elemente erstellen
+  for (let answerId = 0; answerId < randomAnswers.length; answerId++) {
     const answerButton = document.createElement("button");
     answerButton.id = answerId;
     answerButton.classList.add("answer-item", "btn");
     answerButton.setAttribute("onclick", `validate(${answerId})`);
     const answerButtonTextOne = document.createTextNode(
-      question.answers[answerId],
+      randomAnswers[answerId],
     );
     answerButton.appendChild(answerButtonTextOne);
     answerDiv.appendChild(answerButton);
   }
-
   document.getElementById("display-question").appendChild(questionDiv);
+  question.answers = randomAnswers;
 }
 
 function nextQuestion() {
+  randomAnswers = [];
+
   if (questionsId >= 0) {
     document.getElementById(currentQuestion.id).remove();
   }
@@ -105,23 +137,25 @@ function nextQuestion() {
   renderQuestion(currentQuestion);
 }
 
-function validate(answerId) {
-  const correctAnswerId = currentQuestion.answers.findIndex((zahl) => {
+function validate(randomAnswerId) {
+  const correctAnswerId = randomAnswers.findIndex((zahl) => {
     return zahl === currentQuestion.correctAnswer;
   });
-  if (correctAnswerId === answerId) {
-    var element = document.getElementById(answerId);
-    element.classList.add("true");
-    alert("Diese Antwort ist richtig");
+  console.log(correctAnswerId, randomAnswers);
+  if (correctAnswerId === randomAnswerId) {
+    document.getElementById(randomAnswerId).classList.add("true");
   } else {
-    document.getElementById(answerId).classList.add("false");
-    alert("Diese Antwort ist falsch");
+    document.getElementById(randomAnswerId).classList.add("false");
     document.getElementById(correctAnswerId).classList.add("true");
+  }
+  for (let i = 0; i < randomAnswers.length; i++) {
+    document.getElementById(i).removeAttribute("onclick");
+    document.getElementById(i).classList.remove("btn:hover");
   }
 }
 
-function solution() {
-  const correctAnswerId = currentQuestion.answers.findIndex((zahl) => {
+function showSolution() {
+  const correctAnswerId = randomAnswers.findIndex((zahl) => {
     return zahl === currentQuestion.correctAnswer;
   });
   document.getElementById(correctAnswerId).classList.add("true");
