@@ -35,6 +35,7 @@ body {
 
 .question {
   border-radius: var(--border-radius);
+  background-color: rgb(255, 255, 255);
   box-shadow: rgba(235, 235, 235, 0.8) 0px 0px 14px;
   height: 25rem;
   padding: 0 1rem;
@@ -52,14 +53,17 @@ body {
 .answer-parent {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 1rem;
   margin-top: 2rem;
 }
 
 .answer-item {
-  width: 100%;
+  width: 80%;
   padding: 1rem 0;
   font-size: 1rem;
+  text-align: left;
+  padding-left: 2rem;
 }
 
 .btn {
@@ -67,13 +71,26 @@ body {
   font-weight: 300;
   border: none;
   border-radius: 0.8rem;
+}
+
+.btn-hover {
   background-color: rgb(243, 243, 243);
 }
 
-.btn:hover {
+.btn-hover:hover {
   filter: brightness(90%);
   transition: 0.2s all ease-in-out;
   cursor: pointer;
+}
+
+.description {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.description-text {
+  font-size: 1rem;
+  font-weight: 300;
 }
 
 .footer {
@@ -86,14 +103,26 @@ body {
 .footer .btn {
   padding: 1rem;
   font-size: 1rem;
+  background-color: rgb(243, 243, 243);
+}
+
+.footer .btn:hover {
+  filter: brightness(90%);
+  transition: 0.2s all ease-in-out;
+  cursor: pointer;
 }
 
 .true {
-  background-color: rgba(65, 188, 65, 0.5);
+  background-color: rgba(110, 188, 65, 0.5);
 }
 
 .false {
-  background-color: rgba(255, 0, 0, 0.5);
+  background-color: rgba(255, 77, 0, 0.5);
+}
+
+.btn-remove-Attribute {
+  background-color: rgb(244, 244, 244);
+  color: rgb(226, 226, 226);
 }
 
 @media only screen and (min-width: 600px) {
@@ -120,20 +149,26 @@ body {
   }
 
   .quiz-title {
-    font-size: 5rem;
+    font-size: 6rem;
+    margin-bottom: 3rem;
   }
 
   .question {
-    padding: 1rem 1rem;
+    padding: 2.5rem 2.5rem;
   }
 
   .question-title {
-    font-size: 1.2rem;
-    line-height: 1.2rem;
+    font-size: 1.3rem;
+    line-height: 1.3rem;
   }
 
   .answer-item {
     font-size: 1.2rem;
+  }
+
+  .footer .btn {
+    font-size: 1.3rem;
+    padding: 1rem 3rem;
   }
 }
 
