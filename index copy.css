@@ -16,7 +16,14 @@ body {
 
 .quiz-container {
   max-width: 90%;
-  margin: 3rem auto 0 auto;
+  margin: 0 auto;
+}
+
+.quiz-content {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .quiz-title {
@@ -52,6 +59,7 @@ body {
 }
 
 .answer-item {
+  width: 80%;
   padding: 1rem 2rem;
   font-size: 1rem;
   display: flex;
@@ -60,7 +68,6 @@ body {
 }
 
 .btn {
-  width: 80%;
   font-family: "Zain", sans-serif;
   font-weight: 300;
   border: none;
@@ -79,9 +86,6 @@ body {
 
 .answer-attribute:nth-of-type(1) {
   margin-right: 2rem;
-  /* border: 1px solid rgb(183, 183, 183);
-  border-radius: var(--border-radius);
-  padding: 0.05rem 0.7rem; */
 }
 
 .right-container {
@@ -91,7 +95,7 @@ body {
 }
 
 .checkbox {
-  height: 1.5rem;
+  height: 2rem;
 }
 
 .description {

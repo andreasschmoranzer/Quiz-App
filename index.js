@@ -1,4 +1,4 @@
-const answerAttributes = ["A | ", "B |", "C |", "D |"];
+const answerAttributes = ["A", "B", "C", "D"];
 
 const questionOne = {
   id: "a",
@@ -8,7 +8,6 @@ const questionOne = {
   description: {
     title: "Der Fun Fact",
     text: "Die Stadt hat mehr Brücken als Venedig. Über 1.700 Stück, falls jemand zählen möchte.",
-    id: "description" + 1,
   },
 };
 
@@ -20,7 +19,6 @@ const questionTwo = {
   description: {
     title: "Der Snack-Fact",
     text: "Das Wiener Schnitzel stammt übrigens ursprünglich aus Mailand. Die Wiener haben es einfach besser vermarktet.",
-    id: "description" + 2,
   },
 };
 
@@ -136,18 +134,52 @@ function renderQuestion(question) {
 
   // Elemente erstellen
   for (let answerId = 0; answerId < randomAnswers.length; answerId++) {
-    const answerButton = document.createElement("button");
-    answerButton.id = answerId;
-    answerButton.classList.add("answer-item", "btn", "btn-hover");
-    answerButton.setAttribute("onclick", `validate(${answerId})`);
-    const answerButtonTextOne = document.createTextNode(
-      answerAttributes[answerId] + " " + randomAnswers[answerId],
+    const answerButtonDiv = document.createElement("div");
+    answerButtonDiv.classList.add("answer-item", "btn", "btn-hover");
+    answerButtonDiv.id = answerId;
+    answerButtonDiv.setAttribute("onclick", `validate(${answerId})`);
+
+    const answerButtonLeftDiv = document.createElement("div");
+    answerButtonLeftDiv.classList.add("left-container");
+
+    const answerButtonRightDiv = document.createElement("div");
+    answerButtonRightDiv.classList.add("right-container");
+
+    const answerButtonSpanOne = document.createElement("span");
+    answerButtonSpanOne.classList.add("answer-attribute");
+    answerButtonSpanOne.appendChild(
+      document.createTextNode(answerAttributes[answerId]),
     );
-    answerButton.appendChild(answerButtonTextOne);
-    answerDiv.appendChild(answerButton);
+
+    const answerButtonSpanTwo = document.createElement("span");
+    answerButtonSpanTwo.classList.add("answer-attribute");
+    answerButtonSpanTwo.appendChild(
+      document.createTextNode(randomAnswers[answerId]),
+    );
+
+    /* const answerButtonImg = document.createElement("img");
+    answerButtonImg.classList.add("checkbox");
+    answerButtonImg.src = "img/checkbox.png"; */
+
+    answerButtonDiv.appendChild(answerButtonLeftDiv);
+    answerButtonDiv.appendChild(answerButtonRightDiv);
+    answerButtonLeftDiv.appendChild(answerButtonSpanOne);
+    answerButtonLeftDiv.appendChild(answerButtonSpanTwo);
+    /* answerButtonRightDiv.appendChild(answerButtonImg); */
+
+    answerDiv.appendChild(answerButtonDiv);
   }
 
+  const solutionButton = document.createElement("button");
+  solutionButton.id = "solution";
+  solutionButton.classList.add("btn");
+  solutionButton.appendChild(
+    document.createTextNode("Das ist mir echt zu schwer. HILFE..."),
+  );
+  solutionButton.setAttribute("onclick", `showSolution()`);
+
   document.getElementById("display-question").appendChild(questionDiv);
+  document.getElementById("display-footer").appendChild(solutionButton);
 
   question.answers = randomAnswers;
 }
@@ -157,7 +189,8 @@ function nextQuestion() {
 
   if (questionsId >= 0) {
     document.getElementById(currentQuestion.id).remove();
-    // document.getElementById(currentQuestion.description.id).remove();
+    document.getElementById("display-description").remove();
+    document.getElementById("continue").remove();
   }
 
   if (questionsId + 1 < questions.length) {
@@ -189,7 +222,7 @@ function validate(randomAnswerId) {
 
   // Div für die Erklärungen erstellen
   const descriptionDiv = document.createElement("div");
-  descriptionDiv.id = currentQuestion.description.id;
+  descriptionDiv.id = "display-description";
   descriptionDiv.classList.add("description");
 
   // Paragraphs für den Erklärungstitel und Erklärungstext
@@ -208,8 +241,9 @@ function validate(randomAnswerId) {
   descriptionDiv.appendChild(descriptionText);
 
   const continueButton = document.createElement("button");
+  continueButton.id = "continue";
   continueButton.classList.add("btn");
-  // continueButton.setAttribute("onclick", );
+  continueButton.setAttribute("onclick", `nextQuestion()`);
   continueButton.appendChild(
     document.createTextNode("Nächste Herausforderung"),
   );
@@ -223,5 +257,45 @@ function showSolution() {
   const correctAnswerId = randomAnswers.findIndex((zahl) => {
     return zahl === currentQuestion.correctAnswer;
   });
-  document.getElementById(correctAnswerId).classList.add("true");
+  // document.getElementById(correctAnswerId).classList.add("true");
+  for (let i = 0; i < randomAnswers.length; i++) {
+    if (i === correctAnswerId) {
+      document.getElementById(i).classList.add("true");
+      document.getElementById(i).removeAttribute("onclick");
+    } else {
+      document.getElementById(i).removeAttribute("onclick");
+      document.getElementById(i).classList.add("btn-remove-Attribute");
+      document.getElementById(i).classList.remove("btn-hover");
+    }
+  }
+
+  const continueButton = document.createElement("button");
+  continueButton.id = "continue";
+  continueButton.classList.add("btn");
+  continueButton.setAttribute("onclick", `nextQuestion()`);
+  continueButton.appendChild(
+    document.createTextNode("Nächste Herausforderung"),
+  );
+
+  const descriptionDiv = document.createElement("div");
+  descriptionDiv.id = "display-description";
+  descriptionDiv.classList.add("description");
+
+  const descriptionTitle = document.createElement("p");
+  const descriptionText = document.createElement("p");
+  descriptionText.classList.add("description-text");
+
+  descriptionTitle.appendChild(
+    document.createTextNode(currentQuestion.description.title),
+  );
+  descriptionText.appendChild(
+    document.createTextNode(currentQuestion.description.text),
+  );
+
+  descriptionDiv.appendChild(descriptionTitle);
+  descriptionDiv.appendChild(descriptionText);
+
+  document.getElementById("solution").remove();
+  document.getElementById("display-question").appendChild(descriptionDiv);
+  document.getElementById("display-footer").appendChild(continueButton);
 }
