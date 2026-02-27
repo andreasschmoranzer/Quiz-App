@@ -23,7 +23,31 @@ body {
   font-family: "Londrina Sketch", sans-serif;
   font-size: 4rem;
   text-align: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.quiz-title-true {
+  color: rgb(63, 172, 0);
+}
+
+.quiz-title-false {
+  color: rgb(252, 146, 101);
+}
+
+.quiz-title-flase,
+.quiz-title-true {
+  animation: glow 2s linear infinite;
+}
+
+.description {
+  text-align: center;
+  width: 80%;
+  margin: 0 auto 1rem auto;
+}
+
+.description-text {
+  font-size: 0.8rem;
+  font-weight: 300;
 }
 
 .question {
@@ -92,16 +116,6 @@ body {
 
 .checkbox {
   height: 1.5rem;
-}
-
-.description {
-  text-align: center;
-  margin-top: 1.5rem;
-}
-
-.description-text {
-  font-size: 1rem;
-  font-weight: 300;
 }
 
 .footer {
@@ -177,6 +191,10 @@ body {
     font-size: 1.2rem;
   }
 
+  .description-text {
+    font-size: 1rem;
+  }
+
   .footer .btn {
     font-size: 1.3rem;
     padding: 1rem 3rem;
@@ -188,3 +206,9 @@ body {
     max-width: 550px;
   }
 }
+
+/* @keyframes glow {
+  50% {
+    text-shadow: 0 0 20px rgb(64, 174, 64);
+    /* 0 0 10px rgb(64, 174, 64),
+      0 0 15px rgb(64, 174, 64); */
