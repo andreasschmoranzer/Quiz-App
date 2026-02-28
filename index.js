@@ -1,29 +1,37 @@
 const answerAttributes = ["A", "B", "C", "D"];
 
-const questionOne = {
+const questionZero = {
   id: "a",
-  question: "Was ist die Hauptstadt von Deutschland?",
-  answers: ["Hamburg", "München", "Berlin", "Hannover"],
-  correctAnswer: "Berlin",
-  description: {
-    title: "Der Fun Fact",
-    text: "Die Stadt hat mehr Brücken als Venedig. Über 1.700 Stück, falls jemand zählen möchte.",
-  },
+  question: "Welcher Planet unseres Sonnensystems hat die meisten Monde?",
+  answers: ["Jupiter", "Saturn", "Uranus", "Neptun"],
+  correctAnswer: "Saturn",
+  descriptionTitle: "Der Lokalpatriot",
+  descriptionText:
+    "Saturn! Mit über 140 Monden hätte er mehr Trabanten als so mancher Politiker Follower hat.",
+};
+
+const questionOne = {
+  id: "b",
+  question: "Welches chemische Element hat das Symbol 'Au'?",
+  answers: ["Silber", "Gold", "Aluminium", "Argon"],
+  correctAnswer: "Gold",
+  descriptionTitle: "Der Fun Fact",
+  descriptionText:
+    "Au klingt nicht nach Gold, weil die Römer es Aurum nannten, was so viel wie glänzende Morgenröte bedeutet. Ziemlich poetisch für ein Metall.",
 };
 
 const questionTwo = {
-  id: "b",
-  question: "Was ist die Hauptstadt von Österreich?",
-  answers: ["Wien", "Salzburg", "Innsbruck", "Graz"],
-  correctAnswer: "Wien",
-  description: {
-    title: "Der Snack-Fact",
-    text: "Das Wiener Schnitzel stammt übrigens ursprünglich aus Mailand. Die Wiener haben es einfach besser vermarktet.",
-  },
+  id: "c",
+  question: "In welchem Jahr fiel die Berliner Mauer?",
+  answers: ["1987", "1989", "1990", "1991"],
+  correctAnswer: "1989",
+  descriptionTitle: "Ein Meilenstein",
+  descriptionText:
+    "1989! Ein Jahr, das die Welt veränderte, und alles begann mit einer schlecht vorbereiteten Pressekonferenz.",
 };
 
 const questionThree = {
-  id: "c",
+  id: "d",
   question: "Was ist die Hauptstadt von Nordamerika?",
   answers: ["Washington", "San Francisco", "New York", "Florida"],
   correctAnswer: "Washington",
@@ -33,7 +41,7 @@ const questionThree = {
 };
 
 const questionFour = {
-  id: "d",
+  id: "e",
   question: "Was ist die Hauptstadt von Frankreich?",
   answers: ["Bordeaux", "Lyon", "Metz", "Paris"],
   correctAnswer: "Paris",
@@ -43,7 +51,7 @@ const questionFour = {
 };
 
 const questionFive = {
-  id: "e",
+  id: "f",
   question: "Wo fanden 2026 die olympischen Winterspiele statt?",
   answers: ["Sochi", "Vancouver", "Mailand", "Grenoble"],
   correctAnswer: "Mailand",
@@ -53,44 +61,23 @@ const questionFive = {
 };
 
 const questionSix = {
-  id: "f",
-  question: "Welcher Planet unseres Sonnensystems hat die meisten Monde?",
-  answers: ["Jupiter", "Saturn", "Uranus", "Neptun"],
-  correctAnswer: "Saturn",
-  descriptionTitle: "Der Lokalpatriot",
-  descriptionText:
-    "Saturn! Mit über 140 Monden hätte er mehr Trabanten als so mancher Politiker Follower hat.",
-};
-
-const questionSeven = {
   id: "g",
-  question: "In welchem Jahr fiel die Berliner Mauer?",
-  answers: ["1987", "1989", "1990", "1991"],
-  correctAnswer: "1989",
-  descriptionTitle: "Ein Meilenstein",
-  descriptionText:
-    "1989! Ein Jahr, das die Welt veränderte, und alles begann mit einer schlecht vorbereiteten Pressekonferenz.",
-};
-
-const questionEight = {
-  id: "h",
-  question: "Welches chemische Element hat das Symbol 'Au'?",
-  answers: ["Silber", "Gold", "Aluminium", "Argon"],
-  correctAnswer: "Gold",
+  question: "Was ist die Hauptstadt von Deutschland?",
+  answers: ["Hamburg", "München", "Berlin", "Hannover"],
+  correctAnswer: "Berlin",
   descriptionTitle: "Der Fun Fact",
   descriptionText:
-    "Au klingt nicht nach Gold, weil die Römer es Aurum nannten, was so viel wie glänzende Morgenröte bedeutet. Ziemlich poetisch für ein Metall.",
+    "Die Stadt hat mehr Brücken als Venedig. Über 1.700 Stück, falls jemand zählen möchte.",
 };
 
 const questions = [
+  questionZero,
   questionOne,
   questionTwo,
-  /* questionThree,
+  questionThree,
   questionFour,
   questionFive,
   questionSix,
-  questionSeven,
-  questionEight, */
 ];
 
 document.addEventListener("DOMContentLoaded", nextQuestion);
@@ -99,9 +86,13 @@ let questionsId = -1;
 let currentQuestion;
 let randomAnswers = [];
 
+let displaySolution = false;
+let incorrectSolution = false;
+let correctSolution = false;
+
 function renderQuestion(question) {
-  const descriptionDiv = document.createElement("div");
-  descriptionDiv.id = "display-description";
+  /* const descriptionDiv = document.createElement("div");
+  descriptionDiv.id = "display-description"; */
   const questionDiv = document.createElement("div");
   questionDiv.id = question.id;
   const questionParagraph = document.createElement("p");
@@ -181,7 +172,7 @@ function renderQuestion(question) {
   );
   solutionButton.setAttribute("onclick", `showSolution()`);
 
-  document.getElementById("display-question").appendChild(descriptionDiv);
+  /* document.getElementById("display-question").appendChild(descriptionDiv); */
   document.getElementById("display-question").appendChild(questionDiv);
   document.getElementById("display-footer").appendChild(solutionButton);
 
@@ -194,10 +185,19 @@ function nextQuestion() {
   document.getElementById("quiz-title").classList.remove("quiz-title-true");
   document.getElementById("quiz-title").classList.remove("quiz-title-false");
 
-  if (questionsId >= 0) {
+  if (displaySolution === true) {
     document.getElementById(currentQuestion.id).remove();
+    document.getElementById("continue").remove();
+    displaySolution = false;
+  } else if (incorrectSolution === true) {
+    document.getElementById(currentQuestion.id).remove();
+    document.getElementById("continue").remove();
+    incorrectSolution = false;
+  } else if (correctSolution === true) {
+    document.getElementById("correct-answer").remove();
     document.getElementById("display-description").remove();
     document.getElementById("continue").remove();
+    correctSolution = false;
   }
 
   if (questionsId + 1 < questions.length) {
@@ -228,32 +228,30 @@ function validate(randomAnswerId) {
       document.getElementById(i).classList.remove("btn-hover");
     }
   }
-  if (randomAnswerId === correctAnswerId) {
+  if (correctAnswerId === randomAnswerId) {
     document.getElementById("quiz-title").innerHTML = "Richtig";
     document.getElementById("quiz-title").classList.add("quiz-title-true");
+    document.getElementById(currentQuestion.id).remove();
+
+    createAnswerButton(correctAnswerId);
     addDescription();
+
+    correctSolution = true;
   } else {
     document.getElementById("quiz-title").innerHTML = "Falsch";
     document.getElementById("quiz-title").classList.add("quiz-title-false");
+    incorrectSolution = true;
   }
 
-  const continueButton = document.createElement("button");
-  continueButton.id = "continue";
-  continueButton.classList.add("btn");
-  continueButton.setAttribute("onclick", `nextQuestion()`);
-  continueButton.appendChild(
-    document.createTextNode("Nächste Herausforderung"),
-  );
+  addContinueButton();
 
   document.getElementById("solution").remove();
-  document.getElementById("display-footer").appendChild(continueButton);
 }
 
 function showSolution() {
   const correctAnswerId = randomAnswers.findIndex((zahl) => {
     return zahl === currentQuestion.correctAnswer;
   });
-  // document.getElementById(correctAnswerId).classList.add("true");
   for (let i = 0; i < randomAnswers.length; i++) {
     if (i === correctAnswerId) {
       document.getElementById(i).classList.add("true");
@@ -264,7 +262,37 @@ function showSolution() {
       document.getElementById(i).classList.remove("btn-hover");
     }
   }
+  displaySolution = true;
+  addContinueButton();
+  document.getElementById("solution").remove();
+}
 
+// Ausgelagerte Funktionen:
+
+function addDescription() {
+  // DescriptionDiv erstellen
+  const descriptionDiv = document.createElement("div");
+  descriptionDiv.id = "display-description";
+  descriptionDiv.classList.add("description");
+
+  const descriptionText = document.createElement("p");
+  const descriptionTitle = document.createElement("span");
+  descriptionText.classList.add("description-text");
+
+  descriptionTitle.appendChild(
+    document.createTextNode(currentQuestion.descriptionTitle),
+  );
+  descriptionText.appendChild(
+    document.createTextNode(currentQuestion.descriptionText),
+  );
+
+  descriptionDiv.appendChild(descriptionTitle);
+  descriptionDiv.appendChild(descriptionText);
+
+  document.getElementById("display-question").appendChild(descriptionDiv);
+}
+
+function addContinueButton() {
   const continueButton = document.createElement("button");
   continueButton.id = "continue";
   continueButton.classList.add("btn");
@@ -272,49 +300,41 @@ function showSolution() {
   continueButton.appendChild(
     document.createTextNode("Nächste Herausforderung"),
   );
-
-  const descriptionDiv = document.createElement("div");
-  descriptionDiv.id = "display-description";
-  descriptionDiv.classList.add("description");
-
-  const descriptionTitle = document.createElement("p");
-  const descriptionText = document.createElement("p");
-  descriptionText.classList.add("description-text");
-
-  descriptionTitle.appendChild(
-    document.createTextNode(currentQuestion.description.title),
-  );
-  descriptionText.appendChild(
-    document.createTextNode(currentQuestion.description.text),
-  );
-
-  descriptionDiv.appendChild(descriptionTitle);
-  descriptionDiv.appendChild(descriptionText);
-
-  document.getElementById("solution").remove();
-  document.getElementById("display-question").appendChild(descriptionDiv);
   document.getElementById("display-footer").appendChild(continueButton);
 }
 
-// Ausgelagerte Funktionen:
+function createAnswerButton(correctAnswerId) {
+  const answerButtonDiv = document.createElement("div");
+  answerButtonDiv.classList.add("answer-item", "btn", "btn-hover", "true");
+  answerButtonDiv.id = "correct-answer";
+  const answerButtonLeftDiv = document.createElement("div");
+  answerButtonLeftDiv.classList.add("left-container");
 
-function addDescription() {
-  // Div für die Erklärungen mit der id holen
-  const description = document.getElementById("display-description");
-  description.classList.add("description");
+  /* const answerButtonRightDiv = document.createElement("div");
+    answerButtonRightDiv.classList.add("right-container");
+    answerButtonRightDiv.id = "answer-button-right"; */
 
-  // Paragraphs für den Erklärungstitel und Erklärungstext
-  const descriptionText = document.createElement("p");
-  const descriptionTitle = document.createElement("span");
-  descriptionText.classList.add("description-text");
-
-  descriptionTitle.appendChild(
-    document.createTextNode(currentQuestion.description.title),
-  );
-  descriptionText.appendChild(
-    document.createTextNode(currentQuestion.description.text),
+  const answerButtonSpanOne = document.createElement("span");
+  answerButtonSpanOne.classList.add("answer-attribute");
+  answerButtonSpanOne.appendChild(
+    document.createTextNode(answerAttributes[correctAnswerId]),
   );
 
-  description.appendChild(descriptionTitle);
-  description.appendChild(descriptionText);
+  const answerButtonSpanTwo = document.createElement("span");
+  answerButtonSpanTwo.classList.add("answer-attribute");
+  answerButtonSpanTwo.appendChild(
+    document.createTextNode(randomAnswers[correctAnswerId]),
+  );
+
+  /* const answerButtonImg = document.createElement("img");
+    answerButtonImg.classList.add("checkbox");
+    answerButtonImg.src = "img/checkbox.png"; */
+
+  answerButtonDiv.appendChild(answerButtonLeftDiv);
+  /* answerButtonDiv.appendChild(answerButtonRightDiv); */
+  answerButtonLeftDiv.appendChild(answerButtonSpanOne);
+  answerButtonLeftDiv.appendChild(answerButtonSpanTwo);
+  /* answerButtonRightDiv.appendChild(answerButtonImg); */
+
+  document.getElementById("display-question").appendChild(answerButtonDiv);
 }

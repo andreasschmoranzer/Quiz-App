@@ -1,5 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Londrina+Sketch&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Zain:ital,wght@0,200;0,300;0,400;0,700;0,800;0,900;1,300;1,400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 
 * {
   margin: 0;
@@ -11,7 +13,8 @@
 }
 
 body {
-  font-family: "Zain", sans-serif;
+  font-family: "Inter", sans-serif;
+  color: rgb(65, 65, 65);
 }
 
 .quiz-container {
@@ -204,6 +207,15 @@ body {
 @media only screen and (min-width: 1400px) {
   .quiz-container {
     max-width: 550px;
+  }
+}
+
+@keyframes myAnimation {
+  75% {
+    top: 200px;
+  }
+  100% {
+    top: 300px;
   }
 }
 
