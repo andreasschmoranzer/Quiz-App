@@ -195,7 +195,6 @@ function nextQuestion() {
     incorrectSolution = false;
   } else if (correctSolution === true) {
     document.getElementById("correct-answer").remove();
-    document.getElementById("display-description").remove();
     document.getElementById("continue").remove();
     correctSolution = false;
   }
@@ -232,19 +231,14 @@ function validate(randomAnswerId) {
     document.getElementById("quiz-title").innerHTML = "Richtig";
     document.getElementById("quiz-title").classList.add("quiz-title-true");
     document.getElementById(currentQuestion.id).remove();
-
-    createAnswerButton(correctAnswerId);
-    addDescription();
-
+    createCorrectAnswerPage();
     correctSolution = true;
   } else {
     document.getElementById("quiz-title").innerHTML = "Falsch";
     document.getElementById("quiz-title").classList.add("quiz-title-false");
     incorrectSolution = true;
   }
-
   addContinueButton();
-
   document.getElementById("solution").remove();
 }
 
@@ -269,29 +263,6 @@ function showSolution() {
 
 // Ausgelagerte Funktionen:
 
-function addDescription() {
-  // DescriptionDiv erstellen
-  const descriptionDiv = document.createElement("div");
-  descriptionDiv.id = "display-description";
-  descriptionDiv.classList.add("description");
-
-  const descriptionText = document.createElement("p");
-  const descriptionTitle = document.createElement("span");
-  descriptionText.classList.add("description-text");
-
-  descriptionTitle.appendChild(
-    document.createTextNode(currentQuestion.descriptionTitle),
-  );
-  descriptionText.appendChild(
-    document.createTextNode(currentQuestion.descriptionText),
-  );
-
-  descriptionDiv.appendChild(descriptionTitle);
-  descriptionDiv.appendChild(descriptionText);
-
-  document.getElementById("display-question").appendChild(descriptionDiv);
-}
-
 function addContinueButton() {
   const continueButton = document.createElement("button");
   continueButton.id = "continue";
@@ -303,38 +274,37 @@ function addContinueButton() {
   document.getElementById("display-footer").appendChild(continueButton);
 }
 
-function createAnswerButton(correctAnswerId) {
-  const answerButtonDiv = document.createElement("div");
-  answerButtonDiv.classList.add("answer-item", "btn", "btn-hover", "true");
-  answerButtonDiv.id = "correct-answer";
-  const answerButtonLeftDiv = document.createElement("div");
-  answerButtonLeftDiv.classList.add("left-container");
+function createCorrectAnswerPage() {
+  const correctAnswerDiv = document.createElement("div");
+  correctAnswerDiv.classList.add("correct-answer-parent");
+  correctAnswerDiv.id = "correct-answer";
+  const correctAnswerButton = document.createElement("button");
+  correctAnswerButton.classList.add("correct-answer-item");
+  correctAnswerButton.appendChild(
+    document.createTextNode(currentQuestion.correctAnswer + "!"),
+  );
+  correctAnswerDiv.appendChild(correctAnswerButton);
 
-  /* const answerButtonRightDiv = document.createElement("div");
-    answerButtonRightDiv.classList.add("right-container");
-    answerButtonRightDiv.id = "answer-button-right"; */
+  const descriptionDiv = document.createElement("div");
+  descriptionDiv.id = "display-description";
+  descriptionDiv.classList.add("description");
 
-  const answerButtonSpanOne = document.createElement("span");
-  answerButtonSpanOne.classList.add("answer-attribute");
-  answerButtonSpanOne.appendChild(
-    document.createTextNode(answerAttributes[correctAnswerId]),
+  const descriptionText = document.createElement("p");
+  const descriptionTitle = document.createElement("span");
+  descriptionText.classList.add("description-text");
+  descriptionTitle.classList.add("description-title");
+
+  descriptionTitle.appendChild(
+    document.createTextNode(currentQuestion.descriptionTitle),
+  );
+  descriptionText.appendChild(
+    document.createTextNode(currentQuestion.descriptionText),
   );
 
-  const answerButtonSpanTwo = document.createElement("span");
-  answerButtonSpanTwo.classList.add("answer-attribute");
-  answerButtonSpanTwo.appendChild(
-    document.createTextNode(randomAnswers[correctAnswerId]),
-  );
+  descriptionDiv.appendChild(descriptionTitle);
+  descriptionDiv.appendChild(descriptionText);
 
-  /* const answerButtonImg = document.createElement("img");
-    answerButtonImg.classList.add("checkbox");
-    answerButtonImg.src = "img/checkbox.png"; */
+  correctAnswerDiv.appendChild(descriptionDiv);
 
-  answerButtonDiv.appendChild(answerButtonLeftDiv);
-  /* answerButtonDiv.appendChild(answerButtonRightDiv); */
-  answerButtonLeftDiv.appendChild(answerButtonSpanOne);
-  answerButtonLeftDiv.appendChild(answerButtonSpanTwo);
-  /* answerButtonRightDiv.appendChild(answerButtonImg); */
-
-  document.getElementById("display-question").appendChild(answerButtonDiv);
+  document.getElementById("display-question").appendChild(correctAnswerDiv);
 }
