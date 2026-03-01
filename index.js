@@ -7,7 +7,7 @@ const questionZero = {
   correctAnswer: "Saturn",
   descriptionTitle: "Der Lokalpatriot",
   descriptionText:
-    "Saturn! Mit über 140 Monden hätte er mehr Trabanten als so mancher Politiker Follower hat.",
+    "Mit über 140 Monden hätte er mehr Trabanten als so mancher Politiker Follower hat.",
 };
 
 const questionOne = {
@@ -27,7 +27,7 @@ const questionTwo = {
   correctAnswer: "1989",
   descriptionTitle: "Ein Meilenstein",
   descriptionText:
-    "1989! Ein Jahr, das die Welt veränderte, und alles begann mit einer schlecht vorbereiteten Pressekonferenz.",
+    "Ein Jahr, das die Welt veränderte, und alles begann mit einer schlecht vorbereiteten Pressekonferenz.",
 };
 
 const questionThree = {
@@ -47,7 +47,7 @@ const questionFour = {
   correctAnswer: "Paris",
   descriptionTitle: "Wusstest du?",
   descriptionText:
-    "Paris die Stadt der Liebe & Heimat der Freiheitsstatue, die übrigens ein Geschenk Frankreichs an die USA war.",
+    "Die Stadt der Liebe & Heimat der Freiheitsstatue, die übrigens ein Geschenk Frankreichs an die USA war.",
 };
 
 const questionFive = {
@@ -57,7 +57,7 @@ const questionFive = {
   correctAnswer: "Mailand",
   descriptionTitle: "Pizza & Pasta",
   descriptionText:
-    "Mailand! Es war das erste Mal seit 1956, dass Italien wieder Gastgeber der Olympischen Winterspiele war, damals ebenfalls in Cortina d'Ampezzo.",
+    "Es war das erste Mal seit 1956, dass Italien wieder Gastgeber der Olympischen Winterspiele war, damals ebenfalls in Cortina d'Ampezzo.",
 };
 
 const questionSix = {
@@ -281,7 +281,7 @@ function createCorrectAnswerPage() {
   const correctAnswerButton = document.createElement("button");
   correctAnswerButton.classList.add("correct-answer-item");
   correctAnswerButton.appendChild(
-    document.createTextNode(currentQuestion.correctAnswer + "!"),
+    document.createTextNode(currentQuestion.correctAnswer + "..."),
   );
   correctAnswerDiv.appendChild(correctAnswerButton);
 
@@ -290,18 +290,12 @@ function createCorrectAnswerPage() {
   descriptionDiv.classList.add("description");
 
   const descriptionText = document.createElement("p");
-  const descriptionTitle = document.createElement("span");
   descriptionText.classList.add("description-text");
-  descriptionTitle.classList.add("description-title");
 
-  descriptionTitle.appendChild(
-    document.createTextNode(currentQuestion.descriptionTitle),
-  );
   descriptionText.appendChild(
     document.createTextNode(currentQuestion.descriptionText),
   );
 
-  descriptionDiv.appendChild(descriptionTitle);
   descriptionDiv.appendChild(descriptionText);
 
   correctAnswerDiv.appendChild(descriptionDiv);
