@@ -1,7 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Londrina+Sketch&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Zain:ital,wght@0,200;0,300;0,400;0,700;0,800;0,900;1,300;1,400&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 
 * {
   margin: 0;
@@ -16,9 +14,7 @@
 body {
   font-family: "Zain", sans-serif;
   color: rgb(65, 65, 65);
-  background-color: #fffdfb;
-  /* background-color: rgba(252, 240, 224, 0.714); */
-  /* background-image: linear-gradient(135deg, #fad7a1 10%, #e96d71 100%); */
+  background-color: #fffffb;
 }
 
 .quiz-container {
@@ -33,33 +29,55 @@ body {
   justify-content: center;
 }
 
-.quiz-title {
-  /* font-family: "Londrina Sketch", sans-serif; */
-  font-size: 3rem;
-  color: #ffa167;
+.current-count {
+  color: var(--primary-color);
+}
+
+.quiz-headline {
   text-align: center;
+  line-height: 2rem;
+  margin-bottom: 2rem;
+  color: var(--primary-color);
+}
+
+.emoji {
+  font-size: 1.5rem;
+}
+
+.quiz-subtitle {
+  font-weight: 400;
   margin-bottom: 1rem;
 }
 
-.quiz-title-true {
+.quiz-header .quiz-title {
+  font-family: "Londrina Sketch", sans-serif;
+  font-size: 4rem;
+}
+
+.scoreboard {
+  text-align: center;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+  line-height: 1.5rem;
+  height: 3rem;
+}
+
+.correct-answer-title {
+  color: var(--primary-color);
+  text-align: center;
   font-size: 2rem;
+  line-height: 2rem;
   animation-name: myAnimation;
   animation-duration: 0.2s;
 }
 
-.quiz-title-false {
-  color: rgb(252, 146, 101);
-}
-
-.quiz-title-flase,
-.quiz-title-true {
-  animation: glow 2s linear infinite;
+.quiz-subtitle {
+  text-align: center;
 }
 
 .question {
   border-radius: var(--border-radius);
   background-color: rgb(255, 255, 255);
-  /* background-color: #fffdfb; */
   box-shadow: rgba(235, 235, 235, 0.8) 0px 0px 14px;
   height: 25rem;
   padding: 0 1rem;
@@ -103,11 +121,13 @@ body {
 .correct-answer-item {
   font-family: "Londrina Sketch", sans-serif;
   font-size: 4rem;
+  line-height: 3rem;
   font-weight: 700;
   color: rgb(0, 109, 0);
-  margin-top: 0.5rem;
+  margin-top: 1.5rem;
   border: none;
   background-color: transparent;
+  animation: scaleAnswer 0.5s forwards cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
 .btn {
@@ -116,6 +136,7 @@ body {
   font-weight: 300;
   border: 1px solid var(--primary-color);
   border-radius: 0.8rem;
+  padding: 1rem 2rem;
 }
 
 .btn-hover {
@@ -129,28 +150,20 @@ body {
   cursor: pointer;
 }
 
+.btn-remove-Attribute {
+  background-color: rgb(244, 244, 244);
+  color: rgb(220, 220, 220);
+  border: none;
+}
+
 .answer-attribute:nth-of-type(1) {
   margin-right: 2rem;
-}
-
-.right-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.checkbox {
-  height: 1.5rem;
 }
 
 .description {
   text-align: center;
   width: 80%;
-  margin: 0 auto 2rem auto;
-}
-
-.description-title {
-  font-size: 1.5rem;
+  margin: 1rem auto 2rem auto;
 }
 
 .description-text {
@@ -167,14 +180,11 @@ body {
 
 .footer .btn {
   width: fit-content;
-  color: #fc8f4b;
-  /* background-color: #ffa872; */
-  border: 1px solid #fc8f4b;
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
   padding: 1rem;
   font-size: 1rem;
   background-color: rgb(255, 255, 255);
-  /* background-color: rgba(248, 248, 248, 1); */
-  /* box-shadow: rgba(235, 235, 235, 0.8) 0px 0px 14px; */
 }
 
 .footer .btn:hover {
@@ -183,32 +193,24 @@ body {
   cursor: pointer;
 }
 
+.true,
+.false {
+  color: rgb(65, 65, 65);
+}
+
 .true {
-  background-color: rgba(110, 188, 65, 0.5);
+  background-color: rgba(110, 188, 65, 0.3);
   border: 1px solid rgb(110, 188, 65);
 }
 
 .false {
-  background-color: rgba(255, 77, 0, 0.5);
+  background-color: rgba(255, 77, 0, 0.3);
   border: 1px solid rgb(255, 77, 0);
-}
-
-.btn-remove-Attribute {
-  background-color: rgb(244, 244, 244);
-  color: rgb(226, 226, 226);
 }
 
 @media only screen and (min-width: 600px) {
   .quiz-container {
     max-width: 30rem;
-  }
-
-  .quiz-title {
-    margin-bottom: 2rem;
-  }
-
-  .answer-parent {
-    margin-top: 2.5rem;
   }
 
   .footer {
@@ -221,14 +223,12 @@ body {
     max-width: 35rem;
   }
 
-  .quiz-content {
-    display: block;
-    margin-top: 2rem;
-    height: calc(100vh - 4rem);
-  }
-
-  .quiz-title {
-    font-size: 5rem;
+  .quiz-headline {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 2.5rem;
+    line-height: 2.5rem;
   }
 
   .question {
@@ -286,8 +286,8 @@ body {
   }
 }
 
-/* @keyframes glow {
+@keyframes scaleAnswer {
   50% {
-    text-shadow: 0 0 20px rgb(64, 174, 64);
-    /* 0 0 10px rgb(64, 174, 64),
-      0 0 15px rgb(64, 174, 64); */
+    transform: scale(1.25);
+  }
+}

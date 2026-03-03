@@ -9,11 +9,23 @@
   </head>
   <body>
     <section class="quiz-container">
-      <div class="quiz-content">
-        <div id="display-question">
-          <h1 id="quiz-title" class="quiz-title"></h1>
+      <div id="quiz-content" class="quiz-content">
+        <div id="display-introduction">
+          <h1 class="quiz-headline">
+            Wissen ist Macht.<br />
+            Zeig was du hast!
+            <span class="emoji">🚀</span>
+          </h1>
+          <p class="quiz-subtitle">
+            Luke brauchte Jahre, um die Macht zu meistern.<br />
+            Du hast ein paar Minuten. 😏
+          </p>
         </div>
-        <div id="display-footer" class="footer"></div>
+        <div id="display-footer" class="footer">
+          <button id="footer-btn" class="btn" onclick="nextQuestion()">
+            Möge das Quiz beginnen!
+          </button>
+        </div>
       </div>
     </section>
   </body>

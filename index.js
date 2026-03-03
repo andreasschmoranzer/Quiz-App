@@ -5,7 +5,6 @@ const questionZero = {
   question: "Welcher Planet unseres Sonnensystems hat die meisten Monde?",
   answers: ["Jupiter", "Saturn", "Uranus", "Neptun"],
   correctAnswer: "Saturn",
-  descriptionTitle: "Der Lokalpatriot",
   descriptionText:
     "Mit über 140 Monden hätte er mehr Trabanten als so mancher Politiker Follower hat.",
 };
@@ -15,7 +14,6 @@ const questionOne = {
   question: "Welches chemische Element hat das Symbol 'Au'?",
   answers: ["Silber", "Gold", "Aluminium", "Argon"],
   correctAnswer: "Gold",
-  descriptionTitle: "Der Fun Fact",
   descriptionText:
     "Au klingt nicht nach Gold, weil die Römer es Aurum nannten, was so viel wie glänzende Morgenröte bedeutet. Ziemlich poetisch für ein Metall.",
 };
@@ -25,19 +23,17 @@ const questionTwo = {
   question: "In welchem Jahr fiel die Berliner Mauer?",
   answers: ["1987", "1989", "1990", "1991"],
   correctAnswer: "1989",
-  descriptionTitle: "Ein Meilenstein",
   descriptionText:
     "Ein Jahr, das die Welt veränderte, und alles begann mit einer schlecht vorbereiteten Pressekonferenz.",
 };
 
 const questionThree = {
   id: "d",
-  question: "Was ist die Hauptstadt von Nordamerika?",
-  answers: ["Washington", "San Francisco", "New York", "Florida"],
-  correctAnswer: "Washington",
-  descriptionTitle: "Der Historiker",
+  question: "Wie hoch hängt ein Basketballkorb?",
+  answers: ["2,80 Meter", "3,05 Meter", "3,20 Meter", "2,60 Meter"],
+  correctAnswer: "3,05 Meter",
   descriptionText:
-    "Washington, D.C. wurde 1790 eigens als Hauptstadt geplant und gebaut, um keinem bestehenden Bundesstaat einen Heimvorteil zu gönnen.",
+    "Die Korbhöhe von exakt 3,05 Metern (10 Fuß) gilt weltweit einheitlich – von der Schulhofanlage bis zur NBA. Diese Höhe wurde bereits 1891 beim ersten Basketball-Spiel festgelegt.",
 };
 
 const questionFour = {
@@ -45,7 +41,6 @@ const questionFour = {
   question: "Was ist die Hauptstadt von Frankreich?",
   answers: ["Bordeaux", "Lyon", "Metz", "Paris"],
   correctAnswer: "Paris",
-  descriptionTitle: "Wusstest du?",
   descriptionText:
     "Die Stadt der Liebe & Heimat der Freiheitsstatue, die übrigens ein Geschenk Frankreichs an die USA war.",
 };
@@ -55,19 +50,35 @@ const questionFive = {
   question: "Wo fanden 2026 die olympischen Winterspiele statt?",
   answers: ["Sochi", "Vancouver", "Mailand", "Grenoble"],
   correctAnswer: "Mailand",
-  descriptionTitle: "Pizza & Pasta",
   descriptionText:
     "Es war das erste Mal seit 1956, dass Italien wieder Gastgeber der Olympischen Winterspiele war, damals ebenfalls in Cortina d'Ampezzo.",
 };
 
 const questionSix = {
   id: "g",
-  question: "Was ist die Hauptstadt von Deutschland?",
-  answers: ["Hamburg", "München", "Berlin", "Hannover"],
-  correctAnswer: "Berlin",
-  descriptionTitle: "Der Fun Fact",
+  question: "Welches Land hat weltweit die meisten Inseln?",
+  answers: ["Indonesien", "Philippinen", "Norwegen", "Schweden"],
+  correctAnswer: "Schweden",
   descriptionText:
-    "Die Stadt hat mehr Brücken als Venedig. Über 1.700 Stück, falls jemand zählen möchte.",
+    "Schweden kommt auf über 221.000 Inseln. Die meisten davon sind unbewohnte Schären entlang der Ostseeküste.",
+};
+
+const questionSeven = {
+  id: "h",
+  question: "Welche Stadt ist die Hauptstadt von Australien?",
+  answers: ["Sydney", "Melbourne", "Canberra", "Brisbane"],
+  correctAnswer: "Canberra",
+  descriptionText:
+    "Sydney und Melbourne stritten so lange um den Hauptstadttitel, dass 1908 mit Canberra eine völlig neue Stadt als Kompromiss gegründet wurde.",
+};
+
+const questionEight = {
+  id: "i",
+  question: "Von wem stammt der Satz 'Ich denke, also bin ich'?",
+  answers: ["Immanuel Kant", "Aristoteles", "René Descartes", "John Locke"],
+  correctAnswer: "René Descartes",
+  descriptionText:
+    "Descartes formulierte diesen Satz 1637 als einzig sicheren Ausgangspunkt allen Wissens: Wer zweifelt, beweist durch den Zweifel seine eigene Existenz.",
 };
 
 const questions = [
@@ -78,21 +89,25 @@ const questions = [
   questionFour,
   questionFive,
   questionSix,
+  questionSeven,
+  questionEight,
 ];
-
-document.addEventListener("DOMContentLoaded", nextQuestion);
 
 let questionsId = -1;
 let currentQuestion;
 let randomAnswers = [];
+let score = 0;
 
 let displaySolution = false;
 let incorrectSolution = false;
 let correctSolution = false;
 
 function renderQuestion(question) {
-  /* const descriptionDiv = document.createElement("div");
-  descriptionDiv.id = "display-description"; */
+  const quizTitle = document.createElement("h2");
+  quizTitle.appendChild(document.createTextNode("Punkte: " + score));
+  quizTitle.id = "quiz-title";
+  quizTitle.classList.add("scoreboard");
+
   const questionDiv = document.createElement("div");
   questionDiv.id = question.id;
   const questionParagraph = document.createElement("p");
@@ -101,7 +116,6 @@ function renderQuestion(question) {
   questionDiv.classList.add("question");
   questionParagraph.classList.add("question-title");
   answerDiv.classList.add("answer-parent");
-
   const questionPargraphText = document.createTextNode(question.question);
 
   questionParagraph.appendChild(questionPargraphText);
@@ -112,20 +126,13 @@ function renderQuestion(question) {
   while (question.answers.length > 0) {
     let randomAnswer =
       question.answers[Math.floor(Math.random() * question.answers.length)];
-
-    // randomAnswer findIndex
     const randomAnswerId = question.answers.findIndex((zahl) => {
       return zahl === randomAnswer;
     });
-
-    // randomAnswer aus dem alten Array löschen
     question.answers.splice(randomAnswerId, 1);
-
-    // randomAnswer in leeres Array randomAnswers speichern
     randomAnswers.push(randomAnswer);
   }
 
-  // Elemente erstellen
   for (let answerId = 0; answerId < randomAnswers.length; answerId++) {
     const answerButtonDiv = document.createElement("div");
     answerButtonDiv.classList.add("answer-item", "btn", "btn-hover");
@@ -134,10 +141,6 @@ function renderQuestion(question) {
 
     const answerButtonLeftDiv = document.createElement("div");
     answerButtonLeftDiv.classList.add("left-container");
-
-    /* const answerButtonRightDiv = document.createElement("div");
-    answerButtonRightDiv.classList.add("right-container");
-    answerButtonRightDiv.id = "answer-button-right"; */
 
     const answerButtonSpanOne = document.createElement("span");
     answerButtonSpanOne.classList.add("answer-attribute");
@@ -151,51 +154,42 @@ function renderQuestion(question) {
       document.createTextNode(randomAnswers[answerId]),
     );
 
-    /* const answerButtonImg = document.createElement("img");
-    answerButtonImg.classList.add("checkbox");
-    answerButtonImg.src = "img/checkbox.png"; */
-
     answerButtonDiv.appendChild(answerButtonLeftDiv);
-    /* answerButtonDiv.appendChild(answerButtonRightDiv); */
     answerButtonLeftDiv.appendChild(answerButtonSpanOne);
     answerButtonLeftDiv.appendChild(answerButtonSpanTwo);
-    /* answerButtonRightDiv.appendChild(answerButtonImg); */
 
     answerDiv.appendChild(answerButtonDiv);
   }
 
-  const solutionButton = document.createElement("button");
-  solutionButton.id = "solution";
-  solutionButton.classList.add("btn");
-  solutionButton.appendChild(
-    document.createTextNode("Das ist mir echt zu schwer. HILFE..."),
-  );
+  const solutionButton = document.getElementById("footer-btn");
+  solutionButton.innerHTML = "Obi-Wan, ich brauche deine Hilfe!";
   solutionButton.setAttribute("onclick", `showSolution()`);
 
-  /* document.getElementById("display-question").appendChild(descriptionDiv); */
+  document.getElementById("display-question").prepend(quizTitle);
   document.getElementById("display-question").appendChild(questionDiv);
-  document.getElementById("display-footer").appendChild(solutionButton);
 
   question.answers = randomAnswers;
 }
 
 function nextQuestion() {
   randomAnswers = [];
-  document.getElementById("quiz-title").innerHTML = "Quiz";
-  document.getElementById("quiz-title").classList.remove("quiz-title-true");
-  document.getElementById("quiz-title").classList.remove("quiz-title-false");
 
-  if (displaySolution === true) {
+  if (questionsId < 0) {
+    document.getElementById("display-introduction").remove();
+    const displayQuestion = document.createElement("div");
+    displayQuestion.id = "display-question";
+    document.getElementById("quiz-content").prepend(displayQuestion);
+  } else if (displaySolution === true) {
+    document.getElementById("quiz-title").remove();
     document.getElementById(currentQuestion.id).remove();
-    document.getElementById("continue").remove();
     displaySolution = false;
   } else if (incorrectSolution === true) {
+    document.getElementById("quiz-title").remove();
     document.getElementById(currentQuestion.id).remove();
-    document.getElementById("continue").remove();
     incorrectSolution = false;
   } else if (correctSolution === true) {
+    document.getElementById("quiz-title").remove();
     document.getElementById("correct-answer").remove();
-    document.getElementById("continue").remove();
     correctSolution = false;
   }
 
@@ -204,6 +198,7 @@ function nextQuestion() {
     currentQuestion = questions[questionsId];
   } else {
     questionsId = 0;
+    score = 0;
     currentQuestion = questions[questionsId];
   }
   renderQuestion(currentQuestion);
@@ -213,33 +208,28 @@ function validate(randomAnswerId) {
   const correctAnswerId = randomAnswers.findIndex((zahl) => {
     return zahl === currentQuestion.correctAnswer;
   });
-  for (let i = 0; i < randomAnswers.length; i++) {
-    if (i === correctAnswerId) {
-      document.getElementById(i).classList.add("true");
-      document.getElementById(i).removeAttribute("onclick");
-    } else if (i === randomAnswerId) {
-      document.getElementById(randomAnswerId).classList.add("false");
-      document.getElementById(correctAnswerId).classList.add("true");
-      document.getElementById(i).removeAttribute("onclick");
-    } else if (i !== correctAnswerId && i !== randomAnswerId) {
-      document.getElementById(i).removeAttribute("onclick");
-      document.getElementById(i).classList.add("btn-remove-Attribute");
-      document.getElementById(i).classList.remove("btn-hover");
-    }
-  }
   if (correctAnswerId === randomAnswerId) {
-    document.getElementById("quiz-title").innerHTML = "Richtig";
-    document.getElementById("quiz-title").classList.add("quiz-title-true");
+    document.getElementById("quiz-title").innerHTML =
+      "Die Macht<br> ist stark in dir!";
+    document.getElementById("quiz-title").classList.add("correct-answer-title");
+    document.getElementById("quiz-title").classList.remove("scoreboard");
     document.getElementById(currentQuestion.id).remove();
     createCorrectAnswerPage();
     correctSolution = true;
+    score = score + 1;
   } else {
-    document.getElementById("quiz-title").innerHTML = "Falsch";
-    document.getElementById("quiz-title").classList.add("quiz-title-false");
+    for (let i = 0; i < randomAnswers.length; i++) {
+      document.getElementById(randomAnswerId).classList.add("false");
+      document.getElementById(correctAnswerId).classList.add("true");
+      document.getElementById(i).classList.add("btn-remove-Attribute");
+      document.getElementById(i).classList.remove("btn-hover");
+      document.getElementById(i).removeAttribute("onclick");
+    }
+    document.getElementById("quiz-title").innerHTML =
+      "Du noch viel zu lernen hast,<br> junger Padawan!";
     incorrectSolution = true;
   }
   addContinueButton();
-  document.getElementById("solution").remove();
 }
 
 function showSolution() {
@@ -258,20 +248,12 @@ function showSolution() {
   }
   displaySolution = true;
   addContinueButton();
-  document.getElementById("solution").remove();
 }
 
-// Ausgelagerte Funktionen:
-
 function addContinueButton() {
-  const continueButton = document.createElement("button");
-  continueButton.id = "continue";
-  continueButton.classList.add("btn");
+  const continueButton = document.getElementById("footer-btn");
+  continueButton.innerHTML = "R2, nächste Frage bitte!";
   continueButton.setAttribute("onclick", `nextQuestion()`);
-  continueButton.appendChild(
-    document.createTextNode("Nächste Herausforderung"),
-  );
-  document.getElementById("display-footer").appendChild(continueButton);
 }
 
 function createCorrectAnswerPage() {
