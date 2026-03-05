@@ -103,11 +103,6 @@ let incorrectSolution = false;
 let correctSolution = false;
 
 function renderQuestion(question) {
-  const quizTitle = document.createElement("h2");
-  quizTitle.appendChild(document.createTextNode("Punkte: " + score));
-  quizTitle.id = "quiz-title";
-  quizTitle.classList.add("scoreboard");
-
   const questionDiv = document.createElement("div");
   questionDiv.id = question.id;
   const questionParagraph = document.createElement("p");
@@ -135,12 +130,9 @@ function renderQuestion(question) {
 
   for (let answerId = 0; answerId < randomAnswers.length; answerId++) {
     const answerButtonDiv = document.createElement("div");
-    answerButtonDiv.classList.add("answer-item", "btn", "btn-hover");
+    answerButtonDiv.classList.add("btn", "btn-hover");
     answerButtonDiv.id = answerId;
     answerButtonDiv.setAttribute("onclick", `validate(${answerId})`);
-
-    const answerButtonLeftDiv = document.createElement("div");
-    answerButtonLeftDiv.classList.add("left-container");
 
     const answerButtonSpanOne = document.createElement("span");
     answerButtonSpanOne.classList.add("answer-attribute");
@@ -154,19 +146,17 @@ function renderQuestion(question) {
       document.createTextNode(randomAnswers[answerId]),
     );
 
-    answerButtonDiv.appendChild(answerButtonLeftDiv);
-    answerButtonLeftDiv.appendChild(answerButtonSpanOne);
-    answerButtonLeftDiv.appendChild(answerButtonSpanTwo);
+    answerButtonDiv.appendChild(answerButtonSpanOne);
+    answerButtonDiv.appendChild(answerButtonSpanTwo);
 
     answerDiv.appendChild(answerButtonDiv);
   }
 
+  document.getElementById("display-question").appendChild(questionDiv);
+
   const solutionButton = document.getElementById("footer-btn");
   solutionButton.innerHTML = "Obi-Wan, ich brauche deine Hilfe!";
   solutionButton.setAttribute("onclick", `showSolution()`);
-
-  document.getElementById("display-question").prepend(quizTitle);
-  document.getElementById("display-question").appendChild(questionDiv);
 
   question.answers = randomAnswers;
 }
@@ -175,22 +165,26 @@ function nextQuestion() {
   randomAnswers = [];
 
   if (questionsId < 0) {
-    document.getElementById("display-introduction").remove();
-    const displayQuestion = document.createElement("div");
-    displayQuestion.id = "display-question";
-    document.getElementById("quiz-content").prepend(displayQuestion);
+    document.getElementById("quiz-introduction").remove();
+    createQuizMainDiv();
+    createScoreboard();
+    createDisplayQuestionDiv();
   } else if (displaySolution === true) {
-    document.getElementById("quiz-title").remove();
+    document.getElementById("current-score").innerHTML = "Punkte: " + score;
     document.getElementById(currentQuestion.id).remove();
     displaySolution = false;
   } else if (incorrectSolution === true) {
-    document.getElementById("quiz-title").remove();
+    document.getElementById("current-score").innerHTML = "Punkte: " + score;
     document.getElementById(currentQuestion.id).remove();
     incorrectSolution = false;
   } else if (correctSolution === true) {
-    document.getElementById("quiz-title").remove();
+    document.getElementById("current-score").innerHTML = "Punkte: " + score;
     document.getElementById("correct-answer").remove();
+    document.getElementById("description").remove();
+    createDisplayQuestionDiv();
     correctSolution = false;
+  } else if (questionsId === questions.length) {
+    createResultPage();
   }
 
   if (questionsId + 1 < questions.length) {
@@ -209,11 +203,8 @@ function validate(randomAnswerId) {
     return zahl === currentQuestion.correctAnswer;
   });
   if (correctAnswerId === randomAnswerId) {
-    document.getElementById("quiz-title").innerHTML =
-      "Die Macht<br> ist stark in dir!";
-    document.getElementById("quiz-title").classList.add("correct-answer-title");
-    document.getElementById("quiz-title").classList.remove("scoreboard");
-    document.getElementById(currentQuestion.id).remove();
+    document.getElementById("display-question").remove();
+    document.getElementById("current-score").innerHTML = "Richtig!";
     createCorrectAnswerPage();
     correctSolution = true;
     score = score + 1;
@@ -225,7 +216,7 @@ function validate(randomAnswerId) {
       document.getElementById(i).classList.remove("btn-hover");
       document.getElementById(i).removeAttribute("onclick");
     }
-    document.getElementById("quiz-title").innerHTML =
+    document.getElementById("current-score").innerHTML =
       "Du noch viel zu lernen hast,<br> junger Padawan!";
     incorrectSolution = true;
   }
@@ -249,6 +240,30 @@ function showSolution() {
   displaySolution = true;
   addContinueButton();
 }
+function createQuizMainDiv() {
+  const quizMainDiv = document.createElement("div");
+  quizMainDiv.id = "quiz-main";
+  document.getElementById("quiz-content").prepend(quizMainDiv);
+}
+
+function createScoreboard() {
+  const quizTitle = document.createElement("h2");
+  quizTitle.appendChild(document.createTextNode("Punkte: "));
+  quizTitle.id = "current-score";
+  quizTitle.classList.add("scoreboard");
+
+  const currentScore = document.createElement("span");
+  currentScore.appendChild(document.createTextNode(score));
+  currentScore.id = "score-increase";
+  quizTitle.appendChild(currentScore);
+  document.getElementById("quiz-main").appendChild(quizTitle);
+}
+
+function createDisplayQuestionDiv() {
+  const displayQuestion = document.createElement("div");
+  displayQuestion.id = "display-question";
+  document.getElementById("quiz-main").appendChild(displayQuestion);
+}
 
 function addContinueButton() {
   const continueButton = document.getElementById("footer-btn");
@@ -257,30 +272,38 @@ function addContinueButton() {
 }
 
 function createCorrectAnswerPage() {
-  const correctAnswerDiv = document.createElement("div");
-  correctAnswerDiv.classList.add("correct-answer-parent");
-  correctAnswerDiv.id = "correct-answer";
-  const correctAnswerButton = document.createElement("button");
-  correctAnswerButton.classList.add("correct-answer-item");
-  correctAnswerButton.appendChild(
+  const correctAnswerParagraph = document.createElement("p");
+  correctAnswerParagraph.id = "correct-answer";
+  correctAnswerParagraph.classList.add("correct-answer");
+  correctAnswerParagraph.appendChild(
     document.createTextNode(currentQuestion.correctAnswer + "..."),
   );
-  correctAnswerDiv.appendChild(correctAnswerButton);
 
-  const descriptionDiv = document.createElement("div");
-  descriptionDiv.id = "display-description";
-  descriptionDiv.classList.add("description");
+  const description = document.createElement("p");
+  description.id = "description";
+  description.classList.add("description-text");
 
-  const descriptionText = document.createElement("p");
-  descriptionText.classList.add("description-text");
-
-  descriptionText.appendChild(
+  description.appendChild(
     document.createTextNode(currentQuestion.descriptionText),
   );
+  document.getElementById("quiz-main").appendChild(correctAnswerParagraph);
+  document.getElementById("quiz-main").appendChild(description);
+}
 
-  descriptionDiv.appendChild(descriptionText);
-
-  correctAnswerDiv.appendChild(descriptionDiv);
-
-  document.getElementById("display-question").appendChild(correctAnswerDiv);
+function createResultPage() {
+  document.getElementById("current-score").innerHTML = "Dein Ergebnis!";
+  if (correctSolution === true) {
+    document.getElementById("correct-answer").innerHTML = score + " Punkte!";
+    document.getElementById("description").remove();
+  } else {
+    document.getElementById("display-question").remove();
+    const correctAnswerParagraph = document.createElement("p");
+    correctAnswerParagraph.id = "correct-answer";
+    correctAnswerParagraph.classList.add("correct-answer");
+    correctAnswerParagraph.appendChild(
+      document.createTextNode(score + "Punkte"),
+    );
+    document.getElementById("quiz-main").appendChild(correctAnswerParagraph);
+  }
+  document.getElementById("footer-btn").innerHTML = "Nochmal spielen!";
 }
