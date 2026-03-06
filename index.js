@@ -15,7 +15,7 @@ const questionOne = {
   answers: ["Silber", "Gold", "Aluminium", "Argon"],
   correctAnswer: "Gold",
   descriptionText:
-    "Au klingt nicht nach Gold, weil die Römer es Aurum nannten, was so viel wie glänzende Morgenröte bedeutet. Ziemlich poetisch für ein Metall.",
+    "Au klingt nicht nach Gold, weil die Römer es Aurum nannten, was so viel wie glänzende Morgenröte bedeutet.",
 };
 
 const questionTwo = {
@@ -33,7 +33,7 @@ const questionThree = {
   answers: ["2,80 Meter", "3,05 Meter", "3,20 Meter", "2,60 Meter"],
   correctAnswer: "3,05 Meter",
   descriptionText:
-    "Die Korbhöhe von exakt 3,05 Metern (10 Fuß) gilt weltweit einheitlich – von der Schulhofanlage bis zur NBA. Diese Höhe wurde bereits 1891 beim ersten Basketball-Spiel festgelegt.",
+    "Die Korbhöhe von exakt 3,05 Metern (10 Fuß) gilt weltweit einheitlich – von der Schulhofanlage bis zur NBA.",
 };
 
 const questionFour = {
