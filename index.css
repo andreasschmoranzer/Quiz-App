@@ -58,16 +58,16 @@ body {
   border-radius: var(--border-radius);
   background-color: rgb(255, 255, 255);
   box-shadow: rgba(235, 235, 235, 0.8) 0px 0px 14px;
-  height: 25rem;
-  padding: 0 1rem;
+  /* height: 25rem; */
+  padding: 1.5rem 0.5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
 .question-title {
-  font-size: 1rem;
-  line-height: 1rem;
+  font-size: 1.2rem;
+  line-height: 1.2rem;
   text-align: center;
 }
 
@@ -82,6 +82,7 @@ body {
 .btn {
   width: 80%;
   font-family: "Zain", sans-serif;
+  font-size: 1.2rem;
   font-weight: 500;
   border: 1.5px solid var(--primary-color);
   border-radius: 0.8rem;
@@ -124,7 +125,7 @@ body {
 .description-text {
   margin: 1rem auto 0 auto;
   width: 80%;
-  font-size: 1rem;
+  font-size: 1.2rem;
   font-weight: 500;
   text-align: center;
 }
@@ -193,12 +194,7 @@ body {
   }
 
   .btn {
-    font-size: 1.2rem;
     font-weight: 350;
-  }
-
-  .description-text {
-    font-size: 1rem;
   }
 
   .footer .btn {
