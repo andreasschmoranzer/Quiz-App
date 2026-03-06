@@ -45,7 +45,6 @@ body {
   color: var(--primary-color);
   margin-bottom: 1rem;
   line-height: 1.5rem;
-  height: 3rem;
 }
 
 .quiz-subtitle {
@@ -210,6 +209,28 @@ body {
 @media only screen and (min-width: 1400px) {
   .quiz-container {
     max-width: 550px;
+  }
+}
+
+@media only screen and (max-height: 510px) {
+  .question {
+    height: fit-content;
+    padding: 1rem 1rem;
+  }
+
+  .answer-parent {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    place-items: center;
+    margin-top: 1rem;
+  }
+
+  .btn {
+    width: 70%;
+  }
+
+  .footer {
+    margin-top: 1rem;
   }
 }
 
