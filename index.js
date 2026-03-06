@@ -163,39 +163,78 @@ function renderQuestion(question) {
 
 function nextQuestion() {
   randomAnswers = [];
+  if (questionsId + 1 < questions.length) {
+    validateCurrentStatus();
+    questionsId++;
+    currentQuestion = questions[questionsId];
+    renderQuestion(currentQuestion);
+  } else if (questionsId + 1 === questions.length) {
+    createResultPage();
+    questionsId = -1;
+    score = 0;
+    displaySolution = false;
+    incorrectSolution = false;
+    correctSolution = false;
+    console.log(questionsId, score);
+  }
+}
 
+function validateCurrentStatus() {
   if (questionsId < 0) {
     document.getElementById("quiz-introduction").remove();
     createQuizMainDiv();
     createScoreboard();
     createDisplayQuestionDiv();
   } else if (displaySolution === true) {
-    document.getElementById("current-score").innerHTML = "Punkte: " + score;
+    showCurrentScore();
     document.getElementById(currentQuestion.id).remove();
     displaySolution = false;
   } else if (incorrectSolution === true) {
-    document.getElementById("current-score").innerHTML = "Punkte: " + score;
+    showCurrentScore();
     document.getElementById(currentQuestion.id).remove();
     incorrectSolution = false;
   } else if (correctSolution === true) {
-    document.getElementById("current-score").innerHTML = "Punkte: " + score;
+    showCurrentScore();
     document.getElementById("correct-answer").remove();
     document.getElementById("description").remove();
     createDisplayQuestionDiv();
     correctSolution = false;
-  } else if (questionsId === questions.length) {
-    createResultPage();
   }
+}
 
-  if (questionsId + 1 < questions.length) {
-    questionsId++;
-    currentQuestion = questions[questionsId];
-  } else {
-    questionsId = 0;
-    score = 0;
-    currentQuestion = questions[questionsId];
-  }
-  renderQuestion(currentQuestion);
+function createQuizMainDiv() {
+  const quizMainDiv = document.createElement("div");
+  quizMainDiv.id = "quiz-main";
+  document.getElementById("quiz-content").prepend(quizMainDiv);
+}
+
+function createScoreboard() {
+  const quizTitle = document.createElement("h2");
+  quizTitle.appendChild(document.createTextNode("Punkte: "));
+  quizTitle.id = "current-score";
+  quizTitle.classList.add("scoreboard");
+
+  const currentScore = document.createElement("span");
+  currentScore.appendChild(document.createTextNode(score));
+  currentScore.id = "score-increase";
+  quizTitle.appendChild(currentScore);
+  document.getElementById("quiz-main").appendChild(quizTitle);
+}
+
+function showCurrentScore() {
+  document.getElementById("current-score").innerHTML = "Punkte: " + score;
+}
+
+function createDisplayQuestionDiv() {
+  const displayQuestion = document.createElement("div");
+  displayQuestion.id = "display-question";
+  document.getElementById("quiz-main").appendChild(displayQuestion);
+}
+
+function addContinueButton() {
+  const continueButton = document.getElementById("footer-btn");
+  continueButton.innerHTML = "R2, nächste Frage bitte!";
+  continueButton.setAttribute("onclick", `nextQuestion()`);
 }
 
 function validate(randomAnswerId) {
@@ -216,8 +255,6 @@ function validate(randomAnswerId) {
       document.getElementById(i).classList.remove("btn-hover");
       document.getElementById(i).removeAttribute("onclick");
     }
-    document.getElementById("current-score").innerHTML =
-      "Du noch viel zu lernen hast,<br> junger Padawan!";
     incorrectSolution = true;
   }
   addContinueButton();
@@ -240,36 +277,6 @@ function showSolution() {
   displaySolution = true;
   addContinueButton();
 }
-function createQuizMainDiv() {
-  const quizMainDiv = document.createElement("div");
-  quizMainDiv.id = "quiz-main";
-  document.getElementById("quiz-content").prepend(quizMainDiv);
-}
-
-function createScoreboard() {
-  const quizTitle = document.createElement("h2");
-  quizTitle.appendChild(document.createTextNode("Punkte: "));
-  quizTitle.id = "current-score";
-  quizTitle.classList.add("scoreboard");
-
-  const currentScore = document.createElement("span");
-  currentScore.appendChild(document.createTextNode(score));
-  currentScore.id = "score-increase";
-  quizTitle.appendChild(currentScore);
-  document.getElementById("quiz-main").appendChild(quizTitle);
-}
-
-function createDisplayQuestionDiv() {
-  const displayQuestion = document.createElement("div");
-  displayQuestion.id = "display-question";
-  document.getElementById("quiz-main").appendChild(displayQuestion);
-}
-
-function addContinueButton() {
-  const continueButton = document.getElementById("footer-btn");
-  continueButton.innerHTML = "R2, nächste Frage bitte!";
-  continueButton.setAttribute("onclick", `nextQuestion()`);
-}
 
 function createCorrectAnswerPage() {
   const correctAnswerParagraph = document.createElement("p");
@@ -291,19 +298,36 @@ function createCorrectAnswerPage() {
 }
 
 function createResultPage() {
-  document.getElementById("current-score").innerHTML = "Dein Ergebnis!";
+  const finalScore = score;
+  const midScore = score / 2;
+
+  if (finalScore > midScore) {
+    document.getElementById("current-score").innerHTML =
+      "Die Macht ist stark in dir!";
+  } else if (finalScore <= midScore) {
+    document.getElementById("current-score").innerHTML =
+      "Du noch viel lernen musst, mein junger Padawan!";
+  }
+
   if (correctSolution === true) {
-    document.getElementById("correct-answer").innerHTML = score + " Punkte!";
+    showFinalScore();
     document.getElementById("description").remove();
   } else {
     document.getElementById("display-question").remove();
     const correctAnswerParagraph = document.createElement("p");
     correctAnswerParagraph.id = "correct-answer";
     correctAnswerParagraph.classList.add("correct-answer");
-    correctAnswerParagraph.appendChild(
-      document.createTextNode(score + "Punkte"),
-    );
     document.getElementById("quiz-main").appendChild(correctAnswerParagraph);
+    showFinalScore();
   }
+  document.getElementById("quiz-main").id = "quiz-introduction";
   document.getElementById("footer-btn").innerHTML = "Nochmal spielen!";
+}
+
+function showFinalScore() {
+  if (score === 1) {
+    document.getElementById("correct-answer").innerHTML = score + " Punkt!";
+  } else {
+    document.getElementById("correct-answer").innerHTML = score + " Punkte!";
+  }
 }
