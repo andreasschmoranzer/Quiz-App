@@ -52,6 +52,7 @@ body {
   font-weight: 400;
   margin-bottom: 1rem;
   text-align: center;
+  font-size: 1.2rem;
 }
 
 .question {
@@ -82,8 +83,8 @@ body {
 .btn {
   width: 80%;
   font-family: "Zain", sans-serif;
-  font-weight: 300;
-  border: 1px solid var(--primary-color);
+  font-weight: 350;
+  border: 1.5px solid var(--primary-color);
   border-radius: 0.8rem;
   padding: 1rem 2rem;
 }
@@ -124,7 +125,7 @@ body {
 .description-text {
   margin: 1rem auto 0 auto;
   width: 80%;
-  font-size: 0.8rem;
+  font-size: 1rem;
   font-weight: 300;
   text-align: center;
 }
