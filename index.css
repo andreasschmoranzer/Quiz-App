@@ -8,13 +8,15 @@
 
 :root {
   --border-radius: 0.8rem;
-  --primary-color: #fc8f4b;
+  --primary-color: #ffac07;
+  --secondary-color: #fffbe1;
 }
 
 body {
   font-family: "Zain", sans-serif;
+  /* color: var(--primary-color); */
   color: rgb(65, 65, 65);
-  background-color: #fffffb;
+  background-color: var(--secondary-color);
 }
 
 .quiz-container {
@@ -56,10 +58,10 @@ body {
 
 .question {
   border-radius: var(--border-radius);
-  background-color: rgb(255, 255, 255);
-  box-shadow: rgba(235, 235, 235, 0.8) 0px 0px 14px;
+  background-color: rgba(255, 255, 255, 0.724);
+  /* box-shadow: rgba(235, 235, 235, 0.8) 0px 0px 14px; */
   /* height: 25rem; */
-  padding: 1.5rem 0.5rem;
+  padding: 1.5rem 1rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -140,23 +142,24 @@ body {
   width: fit-content;
   color: var(--primary-color);
   font-size: 1.1rem;
-  background-color: #fffffb;
+  background-color: rgba(255, 255, 255, 0.783);
+  transition: 0.2s all ease-in-out;
 }
 
 .footer .btn:hover {
-  background-color: #f8eee8;
-  transition: 0.2s all ease-in-out;
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
   cursor: pointer;
 }
 
 .true {
-  background-color: rgba(110, 188, 65, 0.3);
+  background-color: rgba(88, 184, 32, 0.553);
   border: 1px solid rgb(110, 188, 65);
   color: rgb(67, 119, 37);
 }
 
 .false {
-  background-color: rgba(255, 77, 0, 0.3);
+  background-color: rgba(255, 77, 0, 0.488);
   border: 1px solid rgb(255, 77, 0);
   color: rgb(147, 78, 49);
 }
